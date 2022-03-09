@@ -558,6 +558,50 @@ plotFucciLoess2 <- function(sce.o, y, title = NULL, point.size = 3.01,
 	return(p)
 }
 
+plotFucciLoess3 <- function(sce.o, y, title = NULL, point.size = 3.01, 
+														color.name = NULL, color_var = NULL,
+														labels.v = NULL,
+														#col.outname = NULL, 
+														x_lab = "Cell cycle position \u03b8",  colors.v = NULL,
+														hue.n = 500, log2.trans = FALSE, y_lab = NULL, addR2 = TRUE, r2size = 2.5,
+														x.pos = 0, y.pos = 1) {
+	
+	if (log2.trans) y <- log2(y + 1)
+	#if (is.null(y_lab)) y_lab <- bquote(paste('log'['2'],'(expression of ', .(col.outname), ")"))
+	nna.idx <- which(!is.na(sce.o$tricyclePosition))
+	sce.o <- sce.o[, nna.idx]
+	y <- y[ nna.idx]
+	theta.v <- sce.o$tricyclePosition
+	
+	tmp.df <- data.frame(x = sce.o$tricyclePosition, theta = theta.v, y = y)
+	# scale_color <- scale_color_gradientn(name = color.name, limits = range(0, 1), 
+	# 																		 colors = colors.v)
+	loess.l <- tricycle::fit_periodic_loess(theta.v = theta.v, y = y)
+	
+	if (is.null(color_var)) {
+		p <- ggplot(data = tmp.df , aes(x = x , y = y)) +
+			geom_scattermore(data = tmp.df, pointsize = point.size, alpha = 0.8) +
+			geom_path(data = loess.l$pred.df, aes(x = x , y = y), linetype = "dashed", color = "black", size = 0.7, alpha = 0.6, inherit.aes = FALSE) +
+			labs( y = y_lab , x = x_lab, title = title) +
+			scale_x_continuous(limits = c(0, 2 * pi), breaks = c(0, pi / 2, pi, 3 * pi / 2, 2 * pi), labels = paste0(c(0, 0.5, 1, 1.5, 2), "\u03C0"))
+	} else {
+		tmp.df$color <- color_var
+		p <- ggplot(data = tmp.df , aes(x = x , y = y, color = color)) +
+			geom_scattermore(data = tmp.df %>% dplyr::filter(`color` == "NA"), pointsize = point.size, alpha = 0.8) +
+			geom_scattermore(data = tmp.df %>% dplyr::filter(`color` != "NA"), pointsize = point.size, alpha = 0.8) +
+			geom_path(data = loess.l$pred.df, aes(x = x , y = y), linetype = "dashed", color = "black", size = 0.7, alpha = 0.6, inherit.aes = FALSE) +
+			scale_color_manual(values = colors.v, name = color.name, labels = labels.v, limits = levels(factor(tmp.df$color))) + 
+			labs( y = y_lab , x = x_lab, title = title) +
+			scale_x_continuous(limits = c(0, 2 * pi), breaks = c(0, pi / 2, pi, 3 * pi / 2, 2 * pi), labels = paste0(c(0, 0.5, 1, 1.5, 2), "\u03C0"))
+	}
+	
+	
+	if (addR2) p <- p + annotate(geom = "text", x = .percent_range(tmp.df$x, x.pos), y = .percent_range(tmp.df$y, y.pos), size = r2size, hjust = 0, vjust = 1,
+															 label = as.character(as.expression(substitute(italic(R)^2~"="~rsquared, list(rsquared = format(loess.l$rsquared, digits = 3))))), parse = TRUE)
+	
+	return(p)
+}
+
 plotEmbExp <- function(sce.o, dimred, 
 															 color.v,
 															 color.name,
@@ -925,6 +969,7 @@ plotVelocityStream <- function(sce, embedded, use.dimred = 1, point.size = 3.01,
 
 
 fit_t_loess <- function(x, y, span = 0.3, length.out = 200, predict = TRUE, ...) {
+	if (any(is.na(x))) return(list(fitted = NA, residual = NA, loess.o = NA, rsquared = NA))
 	loess.o <- loess(y ~ x, span = span, ...)
 	fitted.v <- loess.o$fitted
 	residual.v <- loess.o$residuals

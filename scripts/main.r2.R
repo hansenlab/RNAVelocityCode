@@ -6,6 +6,8 @@ make_sim <- function(noise_level = 1, n_obs = 500L, n_vars = 10L) {
 	adata <- scv$datasets$simulation(n_obs=n_obs, n_vars=n_vars, t_max=25, alpha=5, beta=.3, gamma=.5, noise_level=noise_level)
 	ncomp <- as.integer( min(30L, n_vars - 1L))
 	scv$pp$pca(adata, n_comps = ncomp)
+	scv$pp$neighbors(adata)
+	scv$pp$moments(adata)
 	
 	### get dynamical
 	scv$tl$recover_dynamics(adata)
@@ -14,9 +16,10 @@ make_sim <- function(noise_level = 1, n_obs = 500L, n_vars = 10L) {
 	return(sce.o)
 }
 
+new_nvar.v <- 15L
 panel_abc.lp <- lapply(c(1, 5, 10), function(noise_level) {
-	sce.o <- make_sim(noise_level = noise_level, n_obs = 500L, n_vars = 10L)
-	i <- 1
+	sce.o <- make_sim(noise_level = noise_level, n_obs = 500L, n_vars = new_nvar.v)
+	i <- which(!is.na(rowData(sce.o)$fit_t_))[1]
 	tmp.m <- dynamical_thet(alpha = rowData(sce.o)$true_alpha[i], beta = rowData(sce.o)$true_beta[i],
 													gamma = rowData(sce.o)$true_gamma[i], scaling = rowData(sce.o)$true_scaling[i],
 													t_ = rowData(sce.o)$true_t_[i], u0 = 0, s0 = 0, tmax = 25, new_t = sce.o$true_t)
@@ -70,51 +73,62 @@ panel_abc.p <- plot_grid(plotlist = do.call(c, panel_abc.lp),
 
 
 ### get all R2
-r2.lm <- lapply(seq_len(10), function(noise_level) {
-	sce.o <- make_sim(noise_level = noise_level, n_obs = 500L, n_vars = 10L)
-	r2_true.v <- apply(assay(sce.o, "Ms"), MARGIN = 1, function(ms) fit_t_loess(x = sce.o$true_t, y = ms)$rsquared)
-	r2_est.v <- sapply(seq_len(nrow(sce.o)), function(i) fit_t_loess(x = assay(sce.o, "fit_t")[i, ], y = assay(sce.o, "Ms")[i, ])$rsquared)
-	r2u_true.v <- apply(assay(sce.o, "Mu"), MARGIN = 1, function(ms) fit_t_loess(x = sce.o$true_t, y = ms)$rsquared)
-	r2u_est.v <- sapply(seq_len(nrow(sce.o)), function(i) fit_t_loess(x = assay(sce.o, "fit_t")[i, ], y = assay(sce.o, "Mu")[i, ])$rsquared)
-	return(list(r2_true = r2_true.v, r2_est = r2_est.v, r2u_true = r2u_true.v, r2u_est = r2u_est.v))
+r2.ldf <- lapply(seq_len(10), function(noise_level) {
+	sce.o <- make_sim(noise_level = noise_level, n_obs = 500L, n_vars = new_nvar.v)
+	### subset the same velocity genes
+	idx <- which(!is.na(rowData(sce.o)$fit_t_))
+	print(str_c(noise_level, " : ", idx))
+	r2_true.v <- apply(assay(sce.o, "Ms")[idx, ], MARGIN = 1, function(ms) fit_t_loess(x = sce.o$true_t, y = ms)$rsquared)
+	r2_est.v <- sapply(idx, function(i) fit_t_loess(x = assay(sce.o, "fit_t")[i, ], y = assay(sce.o, "Ms")[i, ])$rsquared)
+	r2u_true.v <- apply(assay(sce.o, "Mu")[idx, ], MARGIN = 1, function(ms) fit_t_loess(x = sce.o$true_t, y = ms)$rsquared)
+	r2u_est.v <- sapply(idx, function(i) fit_t_loess(x = assay(sce.o, "fit_t")[i, ], y = assay(sce.o, "Mu")[i, ])$rsquared)
+	return(rbind(r2_true = data.frame(r2 = r2_true.v, noise = noise_level, type = "true", su = "s"),
+							r2_est = data.frame(r2 = r2_est.v, noise = noise_level, type = "est", su = "s"),
+							r2u_true = data.frame(r2 = r2u_true.v, noise = noise_level, type = "true", su = "u"),
+							r2u_est = data.frame(r2 = r2u_est.v, noise = noise_level, type = "est", su = "u")))
 })
 
-r2_true.m <- do.call(cbind, lapply(r2.lm, "[[", "r2_true"))
-r2_est.m <- do.call(cbind, lapply(r2.lm, "[[", "r2_est"))
-r2u_true.m <- do.call(cbind, lapply(r2.lm, "[[", "r2u_true"))
-r2u_est.m <- do.call(cbind, lapply(r2.lm, "[[", "r2u_est"))
+# r2_true.df <- do.call(rbind, lapply(r2.ldf, "[[", "r2_true"))
+# r2_est.df <- do.call(rbind, lapply(r2.ldf, "[[", "r2_est"))
+# r2u_true.df <- do.call(rbind, lapply(r2.ldf, "[[", "r2u_true"))
+# r2u_est.df <- do.call(rbind, lapply(r2.ldf, "[[", "r2u_est"))
 
 
-# r2_300.lm <- lapply(seq_len(10), function(noise_level) {
+# r2_300.ldf <- lapply(seq_len(10), function(noise_level) {
 # 	sce.o <- make_sim(noise_level = noise_level, n_obs = 800L, n_vars = 300L)
-# 	r2_true.v <- apply(assay(sce.o, "Ms"), MARGIN = 1, function(ms) fit_t_loess(x = sce.o$true_t, y = ms)$rsquared)
-# 	r2_est.v <- sapply(seq_len(nrow(sce.o)), function(i) fit_t_loess(x = assay(sce.o, "fit_t")[i, ], y = assay(sce.o, "Ms")[i, ])$rsquared)
-# 	r2u_true.v <- apply(assay(sce.o, "Mu"), MARGIN = 1, function(ms) fit_t_loess(x = sce.o$true_t, y = ms)$rsquared)
-# 	r2u_est.v <- sapply(seq_len(nrow(sce.o)), function(i) fit_t_loess(x = assay(sce.o, "fit_t")[i, ], y = assay(sce.o, "Mu")[i, ])$rsquared)
-# 	return(list(r2_true = r2_true.v, r2_est = r2_est.v, r2u_true = r2u_true.v, r2u_est = r2u_est.v))
+# 	idx <- which(!is.na(rowData(sce.o)$fit_t_))
+# 	r2_true.v <- apply(assay(sce.o, "Ms")[idx, ], MARGIN = 1, function(ms) fit_t_loess(x = sce.o$true_t, y = ms)$rsquared)
+# 	r2_est.v <- sapply(idx, function(i) fit_t_loess(x = assay(sce.o, "fit_t")[i, ], y = assay(sce.o, "Ms")[i, ])$rsquared)
+# 	r2u_true.v <- apply(assay(sce.o, "Mu")[idx, ], MARGIN = 1, function(ms) fit_t_loess(x = sce.o$true_t, y = ms)$rsquared)
+# 	r2u_est.v <- sapply(idx, function(i) fit_t_loess(x = assay(sce.o, "fit_t")[i, ], y = assay(sce.o, "Mu")[i, ])$rsquared)
+# 	return(rbind(r2_true = data.frame(r2 = r2_true.v, noise = noise_level, type = "true", su = "s"),
+# 							 r2_est = data.frame(r2 = r2_est.v, noise = noise_level, type = "est", su = "s"),
+# 							 r2u_true = data.frame(r2 = r2u_true.v, noise = noise_level, type = "true", su = "u"),
+# 							 r2u_est = data.frame(r2 = r2u_est.v, noise = noise_level, type = "est", su = "u")))
 # })
-# qsave(r2_300.lm, file = here::here("data/r2_300.lm.qs"))
+# qsave(r2_300.ldf, file = here::here("data/r2_300.ldf.qs"))
 
-r2_300.lm <- qread(here::here("data/r2_300.lm.qs"))
+r2_300.ldf <- qread(here::here("data/r2_300.ldf.qs"))
 
 
 ### panel d
-colnames(r2_true.m) <- str_c("noise_", seq_len(10))
-r2_true.df <- r2_true.m %>% as.data.frame() %>% add_column(type = "true", su = "s")
-colnames(r2_est.m) <- str_c("noise_", seq_len(10))
-r2_est.df <- r2_est.m %>% as.data.frame() %>% add_column(type = "est", su = "s")
-colnames(r2u_true.m) <- str_c("noise_", seq_len(10))
-r2u_true.df <- r2u_true.m %>% as.data.frame() %>% add_column(type = "true", su = "u")
-colnames(r2u_est.m) <- str_c("noise_", seq_len(10))
-r2u_est.df <- r2u_est.m %>% as.data.frame() %>% add_column(type = "est", su = "u")
-
-tmp.df <- rbind(r2_true.df, r2_est.df, r2u_true.df, r2u_est.df) %>%
-	pivot_longer(
-		cols = starts_with("noise"),
-		names_to = "noise",
-		names_prefix = "noise_",
-		values_to = "r2"
-	)
+# colnames(r2_true.m) <- str_c("noise_", seq_len(10))
+# r2_true.df <- r2_true.m %>% as.data.frame() %>% add_column(type = "true", su = "s")
+# colnames(r2_est.m) <- str_c("noise_", seq_len(10))
+# r2_est.df <- r2_est.m %>% as.data.frame() %>% add_column(type = "est", su = "s")
+# colnames(r2u_true.m) <- str_c("noise_", seq_len(10))
+# r2u_true.df <- r2u_true.m %>% as.data.frame() %>% add_column(type = "true", su = "u")
+# colnames(r2u_est.m) <- str_c("noise_", seq_len(10))
+# r2u_est.df <- r2u_est.m %>% as.data.frame() %>% add_column(type = "est", su = "u")
+# 
+# tmp.df <- rbind(r2_true.df, r2_est.df, r2u_true.df, r2u_est.df) %>%
+# 	pivot_longer(
+# 		cols = starts_with("noise"),
+# 		names_to = "noise",
+# 		names_prefix = "noise_",
+# 		values_to = "r2"
+# 	)
+tmp.df <- do.call(rbind, r2.ldf)
 tmp.df$noise <- factor(as.numeric(tmp.df$noise))
 
 panel_d.p <- ggplot(tmp.df, aes(x = noise, y = r2, color = type,  dodge = type, fill = su)) +
@@ -123,40 +137,42 @@ panel_d.p <- ggplot(tmp.df, aes(x = noise, y = r2, color = type,  dodge = type, 
 	scale_fill_manual(values = c("white", "grey80"), name = "S/U") + 
 	labs( x = "Noise level", 
 				y =  expression(italic(R)^2), 
-				title = "10 genes and 500 cells") +
+				title = str_c(new_nvar.v, " genes and 500 cells")) +
 	theme(legend.position = c(0, 0),
 				legend.justification = c(0, 0))
 
 
 
-r2_300_true.m <- do.call(cbind, lapply(r2_300.lm, "[[", "r2_true"))
-r2_300_est.m <- do.call(cbind, lapply(r2_300.lm, "[[", "r2_est"))
-r2u_300_true.m <- do.call(cbind, lapply(r2_300.lm, "[[", "r2u_true"))
-r2u_300_est.m <- do.call(cbind, lapply(r2_300.lm, "[[", "r2u_est"))
-
-### panel d
-colnames(r2_300_true.m) <- str_c("noise_", seq_len(10))
-r2_300_true.df <- r2_300_true.m %>% as.data.frame() %>% add_column(type = "true", su = "s")
-colnames(r2_300_est.m) <- str_c("noise_", seq_len(10))
-r2_300_est.df <- r2_300_est.m %>% as.data.frame() %>% add_column(type = "est", su = "s")
-colnames(r2u_300_true.m) <- str_c("noise_", seq_len(10))
-r2u_300_true.df <- r2u_300_true.m %>% as.data.frame() %>% add_column(type = "true", su = "u")
-colnames(r2u_300_est.m) <- str_c("noise_", seq_len(10))
-r2u_300_est.df <- r2u_300_est.m %>% as.data.frame() %>% add_column(type = "est", su = "u")
-
-tmp.df <- rbind(r2_300_true.df, r2_300_est.df, r2u_300_true.df, r2u_300_est.df) %>%
-	pivot_longer(
-		cols = starts_with("noise"),
-		names_to = "noise",
-		names_prefix = "noise_",
-		values_to = "r2"
-	)
+# r2_300_true.m <- do.call(cbind, lapply(r2_300.lm, "[[", "r2_true"))
+# r2_300_est.m <- do.call(cbind, lapply(r2_300.lm, "[[", "r2_est"))
+# r2u_300_true.m <- do.call(cbind, lapply(r2_300.lm, "[[", "r2u_true"))
+# r2u_300_est.m <- do.call(cbind, lapply(r2_300.lm, "[[", "r2u_est"))
+# 
+# ### panel d
+# colnames(r2_300_true.m) <- str_c("noise_", seq_len(10))
+# r2_300_true.df <- r2_300_true.m %>% as.data.frame() %>% add_column(type = "true", su = "s")
+# colnames(r2_300_est.m) <- str_c("noise_", seq_len(10))
+# r2_300_est.df <- r2_300_est.m %>% as.data.frame() %>% add_column(type = "est", su = "s")
+# colnames(r2u_300_true.m) <- str_c("noise_", seq_len(10))
+# r2u_300_true.df <- r2u_300_true.m %>% as.data.frame() %>% add_column(type = "true", su = "u")
+# colnames(r2u_300_est.m) <- str_c("noise_", seq_len(10))
+# r2u_300_est.df <- r2u_300_est.m %>% as.data.frame() %>% add_column(type = "est", su = "u")
+# 
+# tmp.df <- rbind(r2_300_true.df, r2_300_est.df, r2u_300_true.df, r2u_300_est.df) %>%
+# 	pivot_longer(
+# 		cols = starts_with("noise"),
+# 		names_to = "noise",
+# 		names_prefix = "noise_",
+# 		values_to = "r2"
+# 	)
+tmp.df <- do.call(rbind, r2_300.ldf)
 tmp.df$noise <- factor(as.numeric(tmp.df$noise))
 
 panel_e.p <- ggplot(tmp.df, aes(x = noise, y = r2, color = type,  dodge = type, fill = su)) +
 	geom_boxplot(outlier.shape = 1, outlier.size = 0.2, size = 0.2, width = 0.8) +
 	scale_color_manual(values = c("#377EB8", "#FF7F00"), name = "Type") +
 	scale_fill_manual(values = c("white", "grey80"), name = "S/U") + 
+	ylim(c(0, 1)) +
 	labs( x = "Noise level", 
 				y =  expression(italic(R)^2), 
 				title = "300 genes and 800 cells") +

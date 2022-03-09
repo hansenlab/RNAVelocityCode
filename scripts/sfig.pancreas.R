@@ -44,7 +44,7 @@ pancreas_beta.p <- plotVelocityStream(new.o, embedded_subset[, 1:2], use.dimred 
 																				stream.L = 4, stream.min.L = 0.1, stream.res = 8, stream.width = 0.2,
 																				arrow.angle = 18, arrow.length = 0.35) +
 	scale_color_manual(values = metadata(sce.o)$clusters_colors, name = "Cell_type", labels = levels(sce.o$clusters), limits = levels(sce.o$clusters)) +
-	annotate("rect", xmin= 3, xmax= 5, ymin= - 0.5 , ymax= 1, alpha = 0.5, color= "#4DAF4A", fill= NA, linetype = "solid", size = 0.7) + 
+	annotate("rect", xmin= 3, xmax= 5, ymin= - 0.5 , ymax= 1, alpha = 0.5, color= "turquoise1", fill= NA, linetype = "solid", size = 0.7) + 
 	labs( y = "UMAP-2", x = "UMAP-1") +
 	ggtitle(str_c("Pancreas without Beta cells")) +
 	.theme_noframe + theme(legend.position = "none")
@@ -110,7 +110,7 @@ pancreas_legend.p <- get_legend(plotVelocityStream(new.o, embedded_subset[, 1:2]
 																	.theme_noframe + theme(legend.key.size = unit(6, "pt")))
 
 
-mp <- plot_grid(pancreas_full.p, pancreas_beta.p,  pancreas_preendocrine.p, pancreas_ngn3high.p, 
+mp <- plot_grid(pancreas_beta.p,  pancreas_preendocrine.p, pancreas_ngn3high.p, 
 
 								nrow = 2, ncol = 2, label_size = 10, labels = "auto")
 
