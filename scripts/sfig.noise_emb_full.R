@@ -40,7 +40,7 @@ steady_tran_lknn.m <- embedded[, 1:2]
 
 idx <- which(!is.na(embedded[, 1]))
 grid.df <- gridVectors(reducedDim(steady.o, "X_pca")[idx, ], embedded[idx, ], resolution = 20)
-steady_vec.p <- plotEmbExp_nopoint(steady.o, "X_pca", color.v = steady.o$true_t, title = "Steady trans.pro (learned kNN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
+steady_vec.p <- plotEmbExp_nopoint(steady.o, "X_pca", color.v = steady.o$true_t, title = "Steady trans.pro (learned k-NN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
 	geom_segment(data=grid.df, mapping=aes(x=start.1, y=start.2, xend=end.1, yend=end.2), arrow = arrow(length=unit(0.04, "inches")), inherit.aes = FALSE, size = 0.2)  +
 	.theme_noframe +
 	theme(legend.position = c(1, 0),
@@ -79,7 +79,7 @@ steady_proj_lknn.m <- embedded[, 1:2]
 
 idx <- which(!is.na(embedded[, 1]))
 grid.df <- gridVectors(reducedDim(steady.o, "X_pca")[idx, ], embedded[idx, ], resolution = 20)
-steady_proj.p <- plotEmbExp_nopoint(steady.o, "X_pca", color.v = steady.o$true_t, title = "Steady proj. (learned kNN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
+steady_proj.p <- plotEmbExp_nopoint(steady.o, "X_pca", color.v = steady.o$true_t, title = "Steady proj. (learned k-NN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
 	geom_segment(data=grid.df, mapping=aes(x=start.1, y=start.2, xend=end.1, yend=end.2), arrow = arrow(length=unit(0.04, "inches")), inherit.aes = FALSE, size = 0.2)  +
 	.theme_noframe +
 	theme(legend.position = "none",
@@ -107,7 +107,7 @@ dynamical_tran_lknn.m <- embedded[, 1:2]
 
 idx <- which(!is.na(embedded[, 1]))
 grid.df <- gridVectors(reducedDim(dynamical.o, "X_pca")[idx, ], embedded[idx, ], resolution = 20)
-dynamical_vec.p <- plotEmbExp_nopoint(dynamical.o, "X_pca", color.v = dynamical.o$true_t, title = "Dynamical trans.pro (learned kNN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
+dynamical_vec.p <- plotEmbExp_nopoint(dynamical.o, "X_pca", color.v = dynamical.o$true_t, title = "Dynamical trans.pro (learned k-NN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
 	geom_segment(data=grid.df, mapping=aes(x=start.1, y=start.2, xend=end.1, yend=end.2), arrow = arrow(length=unit(0.04, "inches")), inherit.aes = FALSE, size = 0.2)  +
 	.theme_noframe +
 	theme(legend.position = "none",
@@ -145,7 +145,7 @@ dynamical_proj_lknn.m <- embedded[, 1:2]
 
 idx <- which(!is.na(embedded[, 1]))
 grid.df <- gridVectors(reducedDim(dynamical.o, "X_pca")[idx, ], embedded[idx, ], resolution = 20)
-dynamical_proj.p <- plotEmbExp_nopoint(dynamical.o, "X_pca", color.v =dynamical.o$true_t, title = "Dynamical proj. (learned kNN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
+dynamical_proj.p <- plotEmbExp_nopoint(dynamical.o, "X_pca", color.v =dynamical.o$true_t, title = "Dynamical proj. (learned k-NN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
 	geom_segment(data=grid.df, mapping=aes(x=start.1, y=start.2, xend=end.1, yend=end.2), arrow = arrow(length=unit(0.04, "inches")), inherit.aes = FALSE, size = 0.2)  +
 	.theme_noframe +
 	theme(legend.position = "none",
@@ -192,7 +192,7 @@ true_tran_lknn.m <- embedded[, 1:2]
 
 idx <- which(!is.na(embedded[, 1]))
 grid.df <- gridVectors(reducedDim(sce.o, "X_pca")[idx, ], embedded[idx, ], resolution = 20)
-true_vec.p <- plotEmbExp_nopoint(sce.o, "X_pca", color.v = sce.o$true_t, title = "True v. trans.pro (learned kNN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
+true_vec.p <- plotEmbExp_nopoint(sce.o, "X_pca", color.v = sce.o$true_t, title = "True v. trans.pro (learned k-NN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
 	geom_segment(data=grid.df, mapping=aes(x=start.1, y=start.2, xend=end.1, yend=end.2), arrow = arrow(length=unit(0.04, "inches")), inherit.aes = FALSE, size = 0.2)  +
 	.theme_noframe +
 	theme(legend.position = "none",
@@ -217,7 +217,7 @@ true_proj_lknn.m <- embedded[, 1:2]
 
 grid.df <- gridVectors(reducedDim(sce.o, "X_pca"), embedded, resolution = 20)
 
-true_proj.p <- plotEmbExp_nopoint(sce.o, "X_pca", color.v = sce.o$true_t, title = "True v. projection (learned kNN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "t", point.size = 5.01, point.alpha = 0.6) + 
+true_proj.p <- plotEmbExp_nopoint(sce.o, "X_pca", color.v = sce.o$true_t, title = "True v. projection (learned k-NN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "t", point.size = 5.01, point.alpha = 0.6) + 
 	geom_segment(data=grid.df, mapping=aes(x=start.1, y=start.2, xend=end.1, yend=end.2), arrow = arrow(length=unit(0.04, "inches")), inherit.aes = FALSE, size = 0.2) +
 	# annotate("rect", xmin= 13.2, xmax=16.7, ymin= -4.3 , ymax=-0.9, alpha = 0.2, color="red", fill= NA, linetype = "dashed", size = 0.3) + 
 	.theme_noframe +
@@ -237,7 +237,7 @@ true_proj.p <- plotEmbExp_nopoint(sce.o, "X_pca", color.v = sce.o$true_t, title 
 
 
 
-### use true kNN
+### use true k-NN
 adata <- scv$datasets$simulation(n_obs=n_obs, n_vars=n_vars, t_max=25, alpha=5, beta=.3, gamma=.5, noise_level=noise_level)
 ncomp <- as.integer( min(30L, n_vars - 1L))
 
@@ -252,7 +252,7 @@ dimnames(s.m) <- dimnames(sce.o)
 assay(sce.o, "X") <- s.m
 adata <- zellkonverter::SCE2AnnData(sce.o)
 
-### learn kNN graph using true S
+### learn k-NN graph using true S
 scv$pp$pca(adata, n_comps = ncomp)
 scv$pp$neighbors(adata)
 scv$pp$moments(adata)
@@ -289,7 +289,7 @@ steady_tran_tknn.m <- embedded[, 1:2]
 
 idx <- which(!is.na(embedded[, 1]))
 grid.df <- gridVectors(reducedDim(steady.o, "X_pca")[idx, ], embedded[idx, ], resolution = 20)
-steady_vec_trueknn.p <- plotEmbExp_nopoint(steady.o, "X_pca", color.v = steady.o$true_t, title = "Steady trans.pro (true kNN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
+steady_vec_trueknn.p <- plotEmbExp_nopoint(steady.o, "X_pca", color.v = steady.o$true_t, title = "Steady trans.pro (true k-NN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
 	geom_segment(data=grid.df, mapping=aes(x=start.1, y=start.2, xend=end.1, yend=end.2), arrow = arrow(length=unit(0.04, "inches")), inherit.aes = FALSE, size = 0.2)  +
 	.theme_noframe +
 	theme(legend.position = "none",
@@ -327,7 +327,7 @@ steady_proj_tknn.m <- embedded[, 1:2]
 
 idx <- which(!is.na(embedded[, 1]))
 grid.df <- gridVectors(reducedDim(steady.o, "X_pca")[idx, ], embedded[idx, ], resolution = 20)
-steady_proj_trueknn.p <- plotEmbExp_nopoint(steady.o, "X_pca", color.v = steady.o$true_t, title = "Steady proj. (true kNN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
+steady_proj_trueknn.p <- plotEmbExp_nopoint(steady.o, "X_pca", color.v = steady.o$true_t, title = "Steady proj. (true k-NN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
 	geom_segment(data=grid.df, mapping=aes(x=start.1, y=start.2, xend=end.1, yend=end.2), arrow = arrow(length=unit(0.04, "inches")), inherit.aes = FALSE, size = 0.2)  +
 	.theme_noframe +
 	theme(legend.position = "none",
@@ -355,7 +355,7 @@ dynamical_tran_tknn.m <- embedded[, 1:2]
 
 idx <- which(!is.na(embedded[, 1]))
 grid.df <- gridVectors(reducedDim(dynamical.o, "X_pca")[idx, ], embedded[idx, ], resolution = 20)
-dynamical_vec_trueknn.p <- plotEmbExp_nopoint(dynamical.o, "X_pca", color.v = dynamical.o$true_t, title = "Dynamical trans.pro (true kNN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
+dynamical_vec_trueknn.p <- plotEmbExp_nopoint(dynamical.o, "X_pca", color.v = dynamical.o$true_t, title = "Dynamical trans.pro (true k-NN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
 	geom_segment(data=grid.df, mapping=aes(x=start.1, y=start.2, xend=end.1, yend=end.2), arrow = arrow(length=unit(0.04, "inches")), inherit.aes = FALSE, size = 0.2)  +
 	.theme_noframe +
 	theme(legend.position = "none",
@@ -393,7 +393,7 @@ dynamical_proj_tknn.m <- embedded[, 1:2]
 
 idx <- which(!is.na(embedded[, 1]))
 grid.df <- gridVectors(reducedDim(dynamical.o, "X_pca")[idx, ], embedded[idx, ], resolution = 20)
-dynamical_proj_trueknn.p <- plotEmbExp_nopoint(dynamical.o, "X_pca", color.v =dynamical.o$true_t, title = "Dynamical proj. (true kNN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
+dynamical_proj_trueknn.p <- plotEmbExp_nopoint(dynamical.o, "X_pca", color.v =dynamical.o$true_t, title = "Dynamical proj. (true k-NN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
 	geom_segment(data=grid.df, mapping=aes(x=start.1, y=start.2, xend=end.1, yend=end.2), arrow = arrow(length=unit(0.04, "inches")), inherit.aes = FALSE, size = 0.2)  +
 	.theme_noframe +
 	theme(legend.position = "none",
@@ -440,7 +440,7 @@ true_tran_tknn.m <- embedded[, 1:2]
 
 idx <- which(!is.na(embedded[, 1]))
 grid.df <- gridVectors(reducedDim(sce.o, "X_pca")[idx, ], embedded[idx, ], resolution = 20)
-true_vec_trueknn.p <- plotEmbExp_nopoint(sce.o, "X_pca", color.v = sce.o$true_t, title = "True v. trans.pro (true kNN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
+true_vec_trueknn.p <- plotEmbExp_nopoint(sce.o, "X_pca", color.v = sce.o$true_t, title = "True v. trans.pro (true k-NN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "time", point.size = 5.01, point.alpha = 0.6) + 
 	geom_segment(data=grid.df, mapping=aes(x=start.1, y=start.2, xend=end.1, yend=end.2), arrow = arrow(length=unit(0.04, "inches")), inherit.aes = FALSE, size = 0.2)  +
 	.theme_noframe +
 	theme(legend.position = "none",
@@ -465,7 +465,7 @@ true_proj_tknn.m <- embedded[, 1:2]
 
 grid.df <- gridVectors(reducedDim(sce.o, "X_pca"), embedded, resolution = 20)
 
-true_proj_trueknn.p <- plotEmbExp_nopoint(sce.o, "X_pca", color.v = sce.o$true_t, title = "True v. projection (true kNN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "t", point.size = 5.01, point.alpha = 0.6) + 
+true_proj_trueknn.p <- plotEmbExp_nopoint(sce.o, "X_pca", color.v = sce.o$true_t, title = "True v. projection (true k-NN)", x_lab = "PCA-1", y_lab = "PCA-2", color.name = "t", point.size = 5.01, point.alpha = 0.6) + 
 	geom_segment(data=grid.df, mapping=aes(x=start.1, y=start.2, xend=end.1, yend=end.2), arrow = arrow(length=unit(0.04, "inches")), inherit.aes = FALSE, size = 0.2) +
 	# annotate("rect", xmin= 13.2, xmax=16.7, ymin= -4.3 , ymax=-0.9, alpha = 0.2, color="red", fill= NA, linetype = "dashed", size = 0.3) + 
 	.theme_noframe +
@@ -508,7 +508,7 @@ reducedDim(sce.o, "noise_pca") <- reducedDim(sce.o, "X_pca")
 
 adata <- zellkonverter::SCE2AnnData(sce.o)
 
-### learn kNN graph using true S
+### learn k-NN graph using true S
 scv$pp$pca(adata, n_comps = ncomp)
 scv$pp$neighbors(adata)
 
@@ -584,7 +584,7 @@ dynamical_vec2.p <- plotEmbExp_nopoint(dynamical.o, "X_pca", color.v = dynamical
 
 
 ### smoothing by true knn and trans.pro by learned knn
-### use true kNN
+### use true k-NN
 adata <- scv$datasets$simulation(n_obs=n_obs, n_vars=n_vars, t_max=25, alpha=5, beta=.3, gamma=.5, noise_level=noise_level)
 ncomp <- as.integer( min(30L, n_vars - 1L))
 
@@ -599,7 +599,7 @@ dimnames(s.m) <- dimnames(sce.o)
 assay(sce.o, "X") <- s.m
 adata <- zellkonverter::SCE2AnnData(sce.o)
 
-### learn kNN graph using true S
+### learn k-NN graph using true S
 scv$pp$pca(adata, n_comps = ncomp)
 scv$pp$neighbors(adata)
 scv$pp$moments(adata)
@@ -700,20 +700,20 @@ cos_violin.p <- ggplot(tmp.df, aes(x = type, y = cos)) +
 	geom_violin(alpha = 0.5,  scale= "width", adjust = .8, size = 0.5) +
 	geom_quasirandom(varwidth = FALSE, size = 0.08, alpha = 0.5, width = 0.4, stroke = 0.3) +
 	# scale_color_brewer(palette = "Set1", guide = "none") +
-	scale_x_discrete(labels = c("(a) steady trans.\nlearned kNN",
-															"(b) steady proj.\nlearned kNN",
-															"(c) steady trans.\ntrue kNN",
-															"(d) steady proj.\ntrue kNN",
+	scale_x_discrete(labels = c("(a) steady trans.\nlearned k-NN",
+															"(b) steady proj.\nlearned k-NN",
+															"(c) steady trans.\ntrue k-NN",
+															"(d) steady proj.\ntrue k-NN",
 															"(e) steady trans.\nlearned+true",
 															"(f) steady trans.\ntrue+learned",
-															"(g) dynamical trans.\nlearned kNN",
-															"(h) dynamical proj.\nlearned kNN",
-															"(i) dynamical trans.\ntrue kNN",
-															"(j) dynamical proj.\ntrue kNN",
+															"(g) dynamical trans.\nlearned k-NN",
+															"(h) dynamical proj.\nlearned k-NN",
+															"(i) dynamical trans.\ntrue k-NN",
+															"(j) dynamical proj.\ntrue k-NN",
 															"(k) dynamical trans.\nlearned+true",
 															"(l) dynamical trans.\ntrue+learned",
-															"(m) true.v trans.\nlearned kNN",
-															"(o) true.v trans.\ntrue kNN"), limits = str_c("t", 1:14)) +
+															"(m) true.v trans.\nlearned k-NN",
+															"(o) true.v trans.\ntrue k-NN"), limits = str_c("t", 1:14)) +
 	labs(y = "Cosine similarity", title = "Consine similarity to the true vector fields in (n) or (p)") +
 	theme(axis.title.x = element_blank(),
 				axis.line.x = element_blank(),
@@ -731,13 +731,17 @@ mp <- plot_grid(steady_vec.p, steady_proj.p, steady_vec_trueknn.p, steady_proj_t
 								dynamical_vec2.p, dynamical_vec_trueknn2.p,
 								true_vec.p, true_proj.p, true_vec_trueknn.p, true_proj_trueknn.p,
 								nrow = 4, ncol = 4, label_size = 10, labels = "auto")
-mp <- plot_grid(mp, cos_violin.p,
+
+save_plot(here::here("figs", "sfigs", "sfig.noise_emb_full_1.pdf"), mp,
+					base_height = 2 *1.2 / 1.4, base_width = 2*1.4 / 1.4, nrow = 4 / 3 * 4, ncol = 4, device = cairo_pdf)
+
+mp <- plot_grid(cos_violin.p,
 								# plot_grid(ggplot() + theme_nothing(), cos_violin.p, ggplot() + theme_nothing(),
 								# 					nrow = 1, ncol = 3, rel_widths = c(0.5, 2, 0.5), labels = NULL),
-								nrow = 2, ncol = 1, rel_heights = c(4, 1), label_size = 10, labels = c("", "q"))
+								nrow = 1, ncol = 1, label_size = 10, labels = c("q"))
 
-save_plot(here::here("figs", "sfigs", "sfig.noise_emb_full.pdf"), mp,
-					base_height = 2 *1.2 / 1.4, base_width = 2*1.4 / 1.4, nrow = 4 / 3 * 5, ncol = 4, device = cairo_pdf)
+save_plot(here::here("figs", "sfigs", "sfig.noise_emb_full_2.pdf"), mp,
+					base_height = 2 *1.2 / 1.4, base_width = 2*1.4 / 1.4, nrow = 4 / 3 * 1, ncol = 4, device = cairo_pdf)
 
 
 

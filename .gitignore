@@ -13,6 +13,8 @@ doc
 **.tsv
 **.csv
 **.zip
+**.h5ad
 /data
 /cache
+/omit
 

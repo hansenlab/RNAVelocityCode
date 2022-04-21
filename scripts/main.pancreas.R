@@ -45,7 +45,7 @@ new.o$clusters <- droplevels(new.o$clusters)
 adata <- zellkonverter::SCE2AnnData(new.o)
 scv <- reticulate::import("scvelo")
 scv$pp$neighbors(adata, use_rep = "PCA")
-scv$tl$velocity_graph(adata)
+scv$tl$velocity_graph(adata, n_recurse_neighbors = 5)
 new.o <- zellkonverter::AnnData2SCE(adata)
 
 embedded_subset <- embedVelocity(reducedDim(new.o, "UMAP"), new.o)

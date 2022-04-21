@@ -78,12 +78,12 @@ if (cutoff1.v < cutoff2.v) {
 }
 
 ms_t.p <- plotFucciLoess3(dynamical.o, assay(dynamical.o, "Ms")[g, ], y_lab = "Ms", color_var = g_color.v, point.size = 4.01,
-													colors.v = c("#80B1D3", "#FB8072"), labels.v = c("Down", "Up"), color.name = "Direction",
+													colors.v = c("#64C5EB", "#E84D8A"), labels.v = c("Down", "Up"), color.name = "Direction",
 													title = as.expression(substitute(italic(g)~" Ms over \u03b8", list(g=g)))) +
 	annotate("segment", x = 1.5 * pi, xend = 1.5 * pi, y = 80, yend = 20, alpha = 0.4,
-					 colour = "#80B1D3", size = 2, arrow = arrow(length = unit(0.18, "inches"))) +
+					 colour = "#64C5EB", size = 2, arrow = arrow(length = unit(0.18, "inches"))) +
 	annotate("segment", x = 0.3 * pi, xend = 0.3 * pi, y = 20, yend = 80, alpha = 0.4,
-					 colour = "#FB8072", size = 2, arrow = arrow(length = unit(0.18, "inches"))) +
+					 colour = "#E84D8A", size = 2, arrow = arrow(length = unit(0.18, "inches"))) +
 	theme(legend.position = c(1, 1),
 				legend.justification = c(1, 1),
 				legend.key.size = unit(6, "pt"))
@@ -97,7 +97,7 @@ gc_vcolor2.v <- factor(gc_vcolor2.v)
 dynamical.o$color <- gc_vcolor2.v
 
 dynamical_velo.p <-  plotFucciLoess3(dynamical.o, assay(dynamical.o, "velocity")[g, ], y_lab = "Velocity",color_var = gc_vcolor2.v,
-																		 colors.v = c("#80B1D3", "black", "yellow","#FB8072"), point.size = 4.01,
+																		 colors.v = c("#64C5EB", "#7F58AF", "#FEB326","#E84D8A"), point.size = 4.01,
 																		 labels.v =  c("Down", "Down incons.", "Up incons.", "Up"), color.name = "Direction",
 																		title = as.expression(substitute(italic(g)~" dynamical velocity", list(g=g))), x.pos = 0.45) +
 	geom_hline(yintercept = 0, linetype = "solid", alpha = 0.7) +
@@ -162,7 +162,7 @@ gc_vcolor1.v <- factor(gc_vcolor1.v)
 # dynamical.o$color <- gc_vcolor1.v
 
 steady_velo.p <-  plotFucciLoess3(steady.o, assay(steady.o, "velocity")[g, ], y_lab = "Velocity", color_var = gc_vcolor1.v,
-																	colors.v = c("#80B1D3", "black", "yellow","#FB8072"), point.size = 4.01,
+																	colors.v = c("#64C5EB", "#7F58AF", "#FEB326","#E84D8A"), point.size = 4.01,
 																	labels.v =  c("Down", "Down incons.", "Up incons.", "Up"), color.name = "Direction",
 																	title = as.expression(substitute(italic(g)~" steady velocity", list(g=g)))) +
 	geom_hline(yintercept = 0, linetype = "solid", alpha = 0.7) +
@@ -240,7 +240,7 @@ top10.lp <- lapply(rownames(cc.df)[seq_len(10)], function(g) {
 	
 	
 	ms_t.p <- plotFucciLoess3(dynamical.o, assay(dynamical.o, "Ms")[g, ], y_lab = "Ms", color_var = g_color.v,
-														colors.v = c("#80B1D3", "#FB8072"), labels.v = c("Down", "Up"), color.name = "Direction",
+														colors.v = c("#64C5EB", "#E84D8A"), labels.v = c("Down", "Up"), color.name = "Direction",
 														title = as.expression(substitute(italic(g)~" Ms over \u03b8", list(g=g)))) +
 		theme(legend.position = "none") 
 	
@@ -251,7 +251,7 @@ top10.lp <- lapply(rownames(cc.df)[seq_len(10)], function(g) {
 	gc_vcolor2.v <- factor(gc_vcolor2.v)
 	dynamical.o$color <- gc_vcolor2.v
 	
-	dynamical.p <- plot_dynamicalmums2(dynamical.o, rownm = g, color_by = "color", colors.v = c("#80B1D3", "black", "yellow","#FB8072"),
+	dynamical.p <- plot_dynamicalmums2(dynamical.o, rownm = g, color_by = "color", colors.v = c("#64C5EB", "#7F58AF", "#FEB326","#E84D8A"),
 																		 point.size = 4.01, labels.v = c("Down", "Down incons.", "Up incons.", "Up"),
 																		 title = as.expression(substitute(italic(g)~" dynamical velocity", list(g=g))), color.name = "Direction") +
 		geom_abline(slope = rowData(steady.o[g, ])$velocity_gamma, intercept = 0, linetype = "dashed") +
@@ -259,7 +259,7 @@ top10.lp <- lapply(rownames(cc.df)[seq_len(10)], function(g) {
 					legend.justification = c(0, 1))
 	
 	dynamical_velo.p <-  plotFucciLoess3(dynamical.o, assay(dynamical.o, "velocity")[g, ], y_lab = "Velocity",color_var = gc_vcolor2.v,
-																			 colors.v = c("#80B1D3", "black", "yellow","#FB8072"), labels.v =c("Down", "Down incons.", "Up incons.", "Up"), color.name = "Direction",
+																			 colors.v = c("#64C5EB", "#7F58AF", "#FEB326","#E84D8A"), labels.v =c("Down", "Down incons.", "Up incons.", "Up"), color.name = "Direction",
 																			 title = as.expression(substitute(italic(g)~" dynamical velocity", list(g=g))), x.pos = 0.45) +
 		geom_hline(yintercept = 0, linetype = "solid", alpha = 0.7) +
 		theme(legend.position = "none") 
@@ -271,14 +271,14 @@ top10.lp <- lapply(rownames(cc.df)[seq_len(10)], function(g) {
 	gc_vcolor1.v <- factor(gc_vcolor1.v)
 	dynamical.o$color <- gc_vcolor1.v
 	
-	steady.p <- plot_dynamicalmums2(dynamical.o, rownm = g, color_by = "color", colors.v = c("#80B1D3", "black", "yellow","#FB8072"),
+	steady.p <- plot_dynamicalmums2(dynamical.o, rownm = g, color_by = "color", colors.v = c("#64C5EB", "#7F58AF", "#FEB326","#E84D8A"),
 																	point.size = 4.01, labels.v = c("Down", "Down incons.", "Up incons.", "Up"),
 																	title = as.expression(substitute(italic(g)~" steady velocity", list(g=g))), color.name = "Direction") +
 		geom_abline(slope = rowData(steady.o[g, ])$velocity_gamma, intercept = 0, linetype = "dashed") +
 		theme(legend.position = "none")
 	
 	steady_velo.p <-  plotFucciLoess3(steady.o, assay(steady.o, "velocity")[g, ], y_lab = "Velocity", color_var = gc_vcolor1.v,
-																		colors.v = c("#80B1D3", "black", "yellow","#FB8072"), labels.v =c("Down", "Down incons.", "Up incons.", "Up"), color.name = "Direction",
+																		colors.v = c("#64C5EB", "#7F58AF", "#FEB326","#E84D8A"), labels.v =c("Down", "Down incons.", "Up incons.", "Up"), color.name = "Direction",
 																		title = as.expression(substitute(italic(g)~" steady velocity", list(g=g))), x.pos = 0.45) +
 		geom_hline(yintercept = 0, linetype = "solid", alpha = 0.7) +
 		theme(legend.position = "none") 
@@ -294,11 +294,15 @@ top10.lp <- lapply(rownames(cc.df)[seq_len(10)], function(g) {
 									nrow = 1, ncol = 7, label_size = 10, labels = NULL)
 	return(mp)
 })
-mp <- plot_grid(plotlist = top10.lp,
-								nrow = 10, ncol = 1, label_size = 10, labels = NULL)
-save_plot(here::here("figs", "sfigs", "sfig.fucci_top10.pdf"), mp,
-					base_height = 2 *1.2 / 1.4, base_width = 2*1.4 / 1.4, nrow = 10, ncol = 7, device = cairo_pdf)
 
+mp <- plot_grid(plotlist = top10.lp[1:7],
+								nrow = 7, ncol = 1, label_size = 10, labels = NULL)
+save_plot(here::here("figs", "sfigs", "sfig.fucci_top10_1.pdf"), mp,
+					base_height = 2 *1.2 / 1.4, base_width = 2*1.4 / 1.4, nrow = 7, ncol = 7, device = cairo_pdf)
 
+mp <- plot_grid(plotlist = top10.lp[8:10],
+								nrow = 3, ncol = 1, label_size = 10, labels = NULL)
+save_plot(here::here("figs", "sfigs", "sfig.fucci_top10_2.pdf"), mp,
+					base_height = 2 *1.2 / 1.4, base_width = 2*1.4 / 1.4, nrow = 3, ncol = 7, device = cairo_pdf)
 
 

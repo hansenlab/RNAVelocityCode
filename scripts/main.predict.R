@@ -327,6 +327,14 @@ true_proj.p <- plotEmbExp(sce.o, "X_pca", color.v = sce.o$true_t,
 	.theme_noframe +
 	theme(legend.position = "none")
 
+
+
+### cos.sim
+cos.v <- sapply(seq_len(nrow(trans_embedded)), function(i) lsa::cosine(trans_embedded[i, ], embedded[i, ]))
+median(cos.v, na.rm = T)  # 0.9835566
+
+
+### small rect
 grid.idx <- which((grid.df$start.1 >= 13.2) &
 										(grid.df$start.1 <= 16.7) &
 										(grid.df$start.2 >= -4.3) &
@@ -612,7 +620,7 @@ panel_bc.p <- plot_grid(true_vec_umap.p, true_proj_umap.p, small_umap.p,
 
 
 panel_defgh.p <- plot_grid(true_vec.p, true_proj.p, small.p,
-												 length_com.p, length_com2.p, length_com3.p,
+												 length_com.p, length_com3.p, length_com2.p, 
 													nrow = 2, ncol = 3, label_size = 10, labels = c("d", "", "e", "f", "g", "h"))
 
 
