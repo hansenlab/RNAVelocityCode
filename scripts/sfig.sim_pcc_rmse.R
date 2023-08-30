@@ -159,7 +159,7 @@ pcc.p <- ggplot(tmp.df, aes(x = noise, y = pcc, color = name,  dodge = name, fil
 										 sec.axis = sec_axis(~ (. - ymin.v) / yrange.v , name = "Percentage of recovered genes\nby dynamical model", 
 										 										labels = function(b) { paste0(round(b * 100, 0), "%")})) +
 	labs( x = "Noise level", 
-				title = "PCC of each gene") +
+				title = Tex(r'(PCC between estimated $v_g$ and true $v_g$ of each gene)') ) +
 	theme(legend.position = c(0, 0),
 				legend.justification = c(0, 0))
 																 
@@ -190,7 +190,7 @@ rmse.p <- ggplot(tmp.df, aes(x = noise, y = rmse, color = name,  dodge = name, f
 										 sec.axis = sec_axis(~ (. - ymin2.v) / yrange2.v , name = "Percentage of recovered genes\nby dynamical model", 
 										 										labels = function(b) { paste0(round(b * 100, 0), "%")})) +
 	labs( x = "Noise level", 
-				title = "NRMSE of each gene") +
+				title = Tex(r'(NRMSE between estimated $v_g$ and true $v_g$ of each gene)')) +
 	theme(legend.position = "none")
 
 
@@ -289,7 +289,7 @@ cos.p <- ggplot(tmp.df, aes(x = noise, y = cos, color = name,  dodge = name, fil
 	# 									 sec.axis = sec_axis(~ (. - ymin.v) / yrange.v , name = "Percentage of recovered genes\nby dynamical model", 
 	# 									 										labels = function(b) { paste0(round(b * 100, 0), "%")})) +
 	labs( x = "Noise level", y = "Cosine similarity",
-				title = "Cosine similarity of each cell between the est. v. and true v.") +
+				title = Tex(r'(cos.sim between estimated $v_c$ and true $v_c$ of each cell)')) +
 	theme(legend.position = "none")
 
 ### abs len diff for each cell
@@ -314,7 +314,7 @@ len_diff.p <- ggplot(tmp.df, aes(x = noise, y = len_diff, color = name,  dodge =
 	# 									 sec.axis = sec_axis(~ (. - ymin.v) / yrange.v , name = "Percentage of recovered genes\nby dynamical model", 
 	# 									 										labels = function(b) { paste0(round(b * 100, 0), "%")})) +
 	labs( x = "Noise level", y = "Absolute length difference",
-				title = "Absolute length difference of each cell between the est. v. and true v.") +
+				title ="Absolute difference between estimated speed and true speed in high.dim for each cell") +
 	theme(legend.position = "none")
 
 
@@ -330,7 +330,7 @@ len_pcc.p <- ggplot(tmp.df, aes(x = noise, y = pcc, color = name,  shape = type)
 	scale_color_manual(values = c("#377EB8", "#4DAF4A"), name = "Model", limits = c("steady", "dynamical"), labels = c("Steady", "Dynamical")) +
 	scale_shape_discrete(name = "k-NN") +
 	labs( x = "Noise level", y = "PCC",
-				title = "PCC of vector length per cell between the est. v. and true v.") +
+				title = "PCC between estimated speed and true speed in high.dim for each cell") +
 	theme(legend.position = c(0, 0),
 				legend.justification = c(0, 0))
 

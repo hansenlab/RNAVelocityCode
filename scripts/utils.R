@@ -22,7 +22,8 @@ library(scuttle)
 library(scran)
 library(patchwork)
 library(velociraptor)
-
+library(latex2exp)
+Tex <- latex2exp::TeX
 
 ### set ggplot theme
 .new_theme <- theme_half_open(8) + 
@@ -456,6 +457,33 @@ plotxy <- function(x, y, title = NULL, point.size = 3.01, colors.v = NULL,
 
 	return(p)
 }
+
+plotxy_zeoroy <- function(x, y, title = NULL, point.size = 3.01, colors.v = NULL,
+									 hue.colors = c("#2E22EA","#9E3DFB","#F86BE2","#FCCE7B","#C4E416","#4BBA0F","#447D87","#2C24E9"),
+									 x_lab = "",  y_lab = "", color_by = NULL, color.name = NULL) {
+	
+	tmp.df <- data.frame(x = x, y= y)
+	if (is.null(color_by)) {
+		p <- ggplot(data = tmp.df , aes(x = x, y = y)) +
+			geom_hline(yintercept = 0, color = "grey", alpha = 0.4, linewidth = 0.7) +
+			geom_scattermore(data = tmp.df, pointsize = point.size, alpha = 0.8) +
+			labs( y = y_lab , x = x_lab, title = title) 
+	} else {
+		if (is.null(colors.v)) colors.v <- colData(sce.o)[, color_by]
+		tmp.df$color <- colors.v
+		p <- ggplot(data = tmp.df , aes(x = x, y = y, color = color)) +
+			geom_hline(yintercept = 0, color = "grey", alpha = 0.6, linewidth = 0.8) +
+			geom_scattermore(data = tmp.df, pointsize = point.size, alpha = 0.8) +
+			scale_color_gradientn(name = color.name, limits = range(tmp.df$color), #labels = c(0, rep("", 498), 1),
+														#breaks = seq(from = 0, to = 1, length.out = 500) ,
+														colors = hue.colors) + 
+			labs( y = y_lab, x = x_lab, title = title)
+	}
+	
+	
+	return(p)
+}
+
 plotxy2 <- function(x, y, title = NULL, point.size = 3.01, color_var = NULL,
 									 colors.v = NULL, labels.v = NULL,
 									 x_lab = "",  y_lab = "",  color.name = NULL) {

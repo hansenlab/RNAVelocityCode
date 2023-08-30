@@ -41,14 +41,15 @@ mums.p <- plot_dynamicalmums(dynamical.o, rownm = as.character(i - 1), color_by 
 																																																					 "#35608D", "#2A788E", "#21908C",
 																																																					 "#22A884", "#43BF71", "#7AD151",
 																																																					 "#BBDF27", "#FDE725"),
-														 title = str_c("Using learned KNN"), color.name = "True t",
+														 title = str_c("Using learned k-NN"), color.name = "True t",
 														 point.size = 5.01) +
 	geom_abline(slope = rowData(steady.o[i, ])$velocity_gamma, intercept = 0, linetype = "dashed") +
-	theme(legend.position = "none")
+	theme(legend.position = "none") +
+	xlab(TeX(r'(Ms$_g$)')) + ylab(TeX(r'(Mu$_g$)'))
 
 
-ms_t.p <- plotxy(tmp.df$x, tmp.df$ms, title = "Using learned KNN", x_lab = "True t.",
-								 y_lab = "Ms", color_by = "true_t", point.size = 4.01,
+ms_t.p <- plotxy(tmp.df$x, tmp.df$ms, title = "Using learned k-NN", x_lab = "True time",
+								 y_lab = TeX(r'(Ms$_g$)'), color_by = "true_t", point.size = 4.01,
 								 colors.v = tmp.df$x,
 								 hue.colors = c("#440154", "#482576", "#414487","#35608D",
 								 							 "#2A788E", "#21908C","#22A884", "#43BF71",
@@ -56,8 +57,8 @@ ms_t.p <- plotxy(tmp.df$x, tmp.df$ms, title = "Using learned KNN", x_lab = "True
 	geom_path(data = tmp.df, aes(x = x, y = s), alpha = 0.7, linetype = "solid", color = "black", size = 0.5) +
 	theme(legend.position = "none")
 
-mu_t.p <- plotxy(tmp.df$x, tmp.df$mu, title = "Using learned KNN", x_lab = "True t.",
-								 y_lab = "Mu", color_by = "true_t", point.size = 4.01,
+mu_t.p <- plotxy(tmp.df$x, tmp.df$mu, title = "Using learned k-NN", x_lab = "True time",
+								 y_lab = TeX(r'(Mu$_g$)'), color_by = "true_t", point.size = 4.01,
 								 colors.v = tmp.df$x,
 								 hue.colors = c("#440154", "#482576", "#414487","#35608D",
 								 							 "#2A788E", "#21908C","#22A884", "#43BF71",
@@ -65,8 +66,8 @@ mu_t.p <- plotxy(tmp.df$x, tmp.df$mu, title = "Using learned KNN", x_lab = "True
 	geom_path(data = tmp.df, aes(x = x, y = u), alpha = 0.7, linetype = "solid", color = "black", size = 0.5) +
 	theme(legend.position = "none")
 
-spliced_t.p <- plotxy(tmp.df$x, tmp.df$spliced, title = "Using learned KNN", x_lab = "True t.",
-											y_lab = "Spliced", color_by = "true_t", point.size = 4.01,
+spliced_t.p <- plotxy(tmp.df$x, tmp.df$spliced, title = "Using learned k-NN", x_lab = "True time",
+											y_lab = TeX(r'(Spliec$_g$)'), color_by = "true_t", point.size = 4.01,
 											colors.v = tmp.df$x,
 											hue.colors = c("#440154", "#482576", "#414487","#35608D",
 																		 "#2A788E", "#21908C","#22A884", "#43BF71",
@@ -76,8 +77,8 @@ spliced_t.p <- plotxy(tmp.df$x, tmp.df$spliced, title = "Using learned KNN", x_l
 				legend.justification = c(1, 1),
 				legend.key.size = unit(6, "pt"))
 
-unspliced_t.p <- plotxy(tmp.df$x, tmp.df$unspliced, title = "Using learned KNN", x_lab = "True t.",
-												y_lab = "Unspliced", color_by = "true_t", point.size = 4.01,
+unspliced_t.p <- plotxy(tmp.df$x, tmp.df$unspliced, title = "Using learned k-NN", x_lab = "True time",
+												y_lab = TeX(r'(Unspliced$_g$)'), color_by = "true_t", point.size = 4.01,
 												colors.v = tmp.df$x,
 												hue.colors = c("#440154", "#482576", "#414487","#35608D",
 																			 "#2A788E", "#21908C","#22A884", "#43BF71",
@@ -87,8 +88,8 @@ unspliced_t.p <- plotxy(tmp.df$x, tmp.df$unspliced, title = "Using learned KNN",
 
 
 
-dynamical_t.p <- plotxy(tmp.df$x, tmp.df$dynamical_v, title = "Using learned KNN", x_lab = "True t.",
-												y_lab = "Dynamical v.", color_by = "true_t", point.size = 4.01,
+dynamical_t.p <- plotxy_zeoroy(tmp.df$x, tmp.df$dynamical_v, title = "Using learned k-NN", x_lab = "True time",
+												y_lab = TeX(r'(Dynamical v$_g$)'), color_by = "true_t", point.size = 4.01,
 												colors.v = tmp.df$x,
 												hue.colors = c("#440154", "#482576", "#414487","#35608D",
 																			 "#2A788E", "#21908C","#22A884", "#43BF71",
@@ -107,8 +108,8 @@ dynamical_t.p <- plotxy(tmp.df$x, tmp.df$dynamical_v, title = "Using learned KNN
 # 	theme(plot.title = element_blank(), legend.position = "none",
 # 				plot.margin = unit(c(2, 2, 3, 3), "pt"))
 
-dynamical_v.p <- plotxy(tmp.df$v, tmp.df$dynamical_v, title = "Using learned KNN", x_lab = "True v.",
-												y_lab = "Dynamical v.", color_by = "true_t", point.size = 4.01,
+dynamical_v.p <- plotxy_zeoroy(tmp.df$v, tmp.df$dynamical_v, title = "Using learned k-NN", x_lab = TeX(r'(True v$_g$)'),
+												y_lab = TeX(r'(Dynamical v$_g$)'), color_by = "true_t", point.size = 4.01,
 												colors.v = tmp.df$x,
 												hue.colors = c("#440154", "#482576", "#414487","#35608D",
 																			 "#2A788E", "#21908C","#22A884", "#43BF71",
@@ -121,8 +122,8 @@ dynamical_v.p <- plotxy(tmp.df$v, tmp.df$dynamical_v, title = "Using learned KNN
 					 y = .percent_range(tmp.df$dynamical_v, 0.05), size = 2, hjust = 0, vjust = 1,
 					 label = str_c("NRMSE: ", sprintf("%.3f", nrmse(tmp.df$v, tmp.df$dynamical_v))), parse = FALSE)
 
-est_t.p <- plotxy(tmp.df$x, tmp.df$est, title = "Using learned KNN", x_lab = "True t.",
-									y_lab = "Estimated t.", color_by = "true_t", point.size = 5.01,
+est_t.p <- plotxy(tmp.df$x, tmp.df$est, title = "Using learned k-NN", x_lab = "True time",
+									y_lab = "Estimated time", color_by = "true_t", point.size = 5.01,
 									colors.v = tmp.df$x,
 									hue.colors = c("#440154", "#482576", "#414487","#35608D",
 																 "#2A788E", "#21908C","#22A884", "#43BF71",
@@ -138,7 +139,7 @@ panel_a_h.p <- plot_grid(spliced_t.p, ms_t.p, unspliced_t.p,  mu_t.p,
 
 
 
-### use true KNN
+### use true k-NN
 adata <- scv$datasets$simulation(n_obs=n_obs, n_vars=n_vars, t_max=25, alpha=5, beta=.3, gamma=.5, noise_level=noise_level)
 ncomp <- as.integer( min(30L, n_vars - 1L))
 
@@ -153,7 +154,7 @@ dimnames(s.m) <- dimnames(sce.o)
 assay(sce.o, "X") <- s.m
 adata <- zellkonverter::SCE2AnnData(sce.o)
 
-### learn KNN graph using true S
+### learn k-NN graph using true S
 scv$pp$pca(adata, n_comps = ncomp)
 scv$pp$neighbors(adata)
 
@@ -194,14 +195,15 @@ mums.p <- plot_dynamicalmums(dynamical.o, rownm = as.character(i - 1), color_by 
 																																																					 "#35608D", "#2A788E", "#21908C",
 																																																					 "#22A884", "#43BF71", "#7AD151",
 																																																					 "#BBDF27", "#FDE725"),
-														 title = str_c("Using true KNN"), color.name = "True t",
+														 title = str_c("Using true k-NN"), color.name = "True t",
 														 point.size = 5.01) +
 	geom_abline(slope = rowData(steady.o[i, ])$velocity_gamma, intercept = 0, linetype = "dashed") +
-	theme(legend.position = "none")
+	theme(legend.position = "none") +
+	xlab(TeX(r'(Ms$_g$)')) + ylab(TeX(r'(Mu$_g$)'))
 
 
-ms_t.p <- plotxy(tmp.df$x, tmp.df$ms, title = "Using true KNN", x_lab = "True t.",
-								 y_lab = "Ms", color_by = "true_t", point.size = 4.01,
+ms_t.p <- plotxy(tmp.df$x, tmp.df$ms, title = "Using true k-NN", x_lab = "True time",
+								 y_lab = TeX(r'(Ms$_g$)'), color_by = "true_t", point.size = 4.01,
 								 colors.v = tmp.df$x,
 								 hue.colors = c("#440154", "#482576", "#414487","#35608D",
 								 							 "#2A788E", "#21908C","#22A884", "#43BF71",
@@ -209,8 +211,8 @@ ms_t.p <- plotxy(tmp.df$x, tmp.df$ms, title = "Using true KNN", x_lab = "True t.
 	geom_path(data = tmp.df, aes(x = x, y = s), alpha = 0.7, linetype = "solid", color = "black", size = 0.5) +
 	theme(legend.position = "none")
 
-mu_t.p <- plotxy(tmp.df$x, tmp.df$mu, title = "Using true KNN", x_lab = "True t.",
-								 y_lab = "Mu", color_by = "true_t", point.size = 4.01,
+mu_t.p <- plotxy(tmp.df$x, tmp.df$mu, title = "Using true k-NN", x_lab = "True time",
+								 y_lab = TeX(r'(Mu$_g$)'), color_by = "true_t", point.size = 4.01,
 								 colors.v = tmp.df$x,
 								 hue.colors = c("#440154", "#482576", "#414487","#35608D",
 								 							 "#2A788E", "#21908C","#22A884", "#43BF71",
@@ -218,8 +220,8 @@ mu_t.p <- plotxy(tmp.df$x, tmp.df$mu, title = "Using true KNN", x_lab = "True t.
 	geom_path(data = tmp.df, aes(x = x, y = u), alpha = 0.7, linetype = "solid", color = "black", size = 0.5) +
 	theme(legend.position = "none")
 
-spliced_t.p <- plotxy(tmp.df$x, tmp.df$spliced, title = "Using true KNN", x_lab = "True t.",
-											y_lab = "Spliced", color_by = "true_t", point.size = 4.01,
+spliced_t.p <- plotxy(tmp.df$x, tmp.df$spliced, title = "Using true k-NN", x_lab = "True time",
+											y_lab = TeX(r'(Spliec$_g$)'), color_by = "true_t", point.size = 4.01,
 											colors.v = tmp.df$x,
 											hue.colors = c("#440154", "#482576", "#414487","#35608D",
 																		 "#2A788E", "#21908C","#22A884", "#43BF71",
@@ -229,8 +231,8 @@ spliced_t.p <- plotxy(tmp.df$x, tmp.df$spliced, title = "Using true KNN", x_lab 
 				legend.justification = c(1, 1),
 				legend.key.size = unit(6, "pt"))
 
-unspliced_t.p <- plotxy(tmp.df$x, tmp.df$unspliced, title = "Using true KNN", x_lab = "True t.",
-												y_lab = "Unspliced", color_by = "true_t", point.size = 4.01,
+unspliced_t.p <- plotxy(tmp.df$x, tmp.df$unspliced, title = "Using true k-NN", x_lab = "True time",
+												y_lab = TeX(r'(Unspliced$_g$)'), color_by = "true_t", point.size = 4.01,
 												colors.v = tmp.df$x,
 												hue.colors = c("#440154", "#482576", "#414487","#35608D",
 																			 "#2A788E", "#21908C","#22A884", "#43BF71",
@@ -240,8 +242,8 @@ unspliced_t.p <- plotxy(tmp.df$x, tmp.df$unspliced, title = "Using true KNN", x_
 
 
 
-dynamical_t.p <- plotxy(tmp.df$x, tmp.df$dynamical_v, title = "Using true KNN", x_lab = "True t.",
-												y_lab = "Dynamical v.", color_by = "true_t", point.size = 4.01,
+dynamical_t.p <- plotxy_zeoroy(tmp.df$x, tmp.df$dynamical_v, title = "Using true k-NN", x_lab = "True time",
+												y_lab = TeX(r'(Dynamical v$_g$)'), color_by = "true_t", point.size = 4.01,
 												colors.v = tmp.df$x,
 												hue.colors = c("#440154", "#482576", "#414487","#35608D",
 																			 "#2A788E", "#21908C","#22A884", "#43BF71",
@@ -260,8 +262,8 @@ dynamical_t.p <- plotxy(tmp.df$x, tmp.df$dynamical_v, title = "Using true KNN", 
 # 	theme(plot.title = element_blank(), legend.position = "none",
 # 				plot.margin = unit(c(2, 2, 3, 3), "pt"))
 
-dynamical_v.p <- plotxy(tmp.df$v, tmp.df$dynamical_v, title = "Using true KNN", x_lab = "True v.",
-												y_lab = "Dynamical v.", color_by = "true_t", point.size = 4.01,
+dynamical_v.p <- plotxy_zeoroy(tmp.df$v, tmp.df$dynamical_v, title = "Using true k-NN", x_lab = TeX(r'(True v$_g$)'),
+												y_lab = TeX(r'(Dynamical v$_g$)'), color_by = "true_t", point.size = 4.01,
 												colors.v = tmp.df$x,
 												hue.colors = c("#440154", "#482576", "#414487","#35608D",
 																			 "#2A788E", "#21908C","#22A884", "#43BF71",
@@ -274,8 +276,8 @@ dynamical_v.p <- plotxy(tmp.df$v, tmp.df$dynamical_v, title = "Using true KNN", 
 					 y = .percent_range(tmp.df$dynamical_v, 0.05), size = 2, hjust = 0, vjust = 1,
 					 label = str_c("NRMSE: ", sprintf("%.3f", nrmse(tmp.df$v, tmp.df$dynamical_v))), parse = FALSE)
 
-est_t.p <- plotxy(tmp.df$x, tmp.df$est, title = "Using true KNN", x_lab = "True t.",
-									y_lab = "Estimated t.", color_by = "true_t", point.size = 5.01,
+est_t.p <- plotxy(tmp.df$x, tmp.df$est, title = "Using true k-NN", x_lab = "True time",
+									y_lab = "Estimated time", color_by = "true_t", point.size = 5.01,
 									colors.v = tmp.df$x,
 									hue.colors = c("#440154", "#482576", "#414487","#35608D",
 																 "#2A788E", "#21908C","#22A884", "#43BF71",
