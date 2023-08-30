@@ -67,7 +67,7 @@ mu_t.p <- plotxy(tmp.df$x, tmp.df$mu, title = "Using learned k-NN", x_lab = "Tru
 	theme(legend.position = "none")
 
 spliced_t.p <- plotxy(tmp.df$x, tmp.df$spliced, title = "Using learned k-NN", x_lab = "True time",
-											y_lab = TeX(r'(Spliec$_g$)'), color_by = "true_t", point.size = 4.01,
+											y_lab = TeX(r'(Spliced$_g$)'), color_by = "true_t", point.size = 4.01,
 											colors.v = tmp.df$x,
 											hue.colors = c("#440154", "#482576", "#414487","#35608D",
 																		 "#2A788E", "#21908C","#22A884", "#43BF71",
@@ -221,7 +221,7 @@ mu_t.p <- plotxy(tmp.df$x, tmp.df$mu, title = "Using true k-NN", x_lab = "True t
 	theme(legend.position = "none")
 
 spliced_t.p <- plotxy(tmp.df$x, tmp.df$spliced, title = "Using true k-NN", x_lab = "True time",
-											y_lab = TeX(r'(Spliec$_g$)'), color_by = "true_t", point.size = 4.01,
+											y_lab = TeX(r'(Spliced$_g$)'), color_by = "true_t", point.size = 4.01,
 											colors.v = tmp.df$x,
 											hue.colors = c("#440154", "#482576", "#414487","#35608D",
 																		 "#2A788E", "#21908C","#22A884", "#43BF71",
